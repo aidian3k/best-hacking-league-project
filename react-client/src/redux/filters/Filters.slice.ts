@@ -3,8 +3,8 @@ import { SearchFiltersInput, ProjectManagementPlatform } from './Filters.types';
 
 const initialState: SearchFiltersInput = {
     searchText: [],
-    startingDate: null,
-    endingDate: null,
+    startingDate: '',
+    endingDate: '',
     projectIds: [],
     isSearchingActiveEmployees: false,
     projectManagementPlatforms: []
@@ -17,10 +17,10 @@ const searchFiltersSlice = createSlice({
         setSearchText: (state: SearchFiltersInput, action: PayloadAction<string[]>) => {
             state.searchText = action.payload;
         },
-        setStartingDate: (state: SearchFiltersInput, action: PayloadAction<Date | null>) => {
+        setStartingDate: (state: SearchFiltersInput, action: PayloadAction<string>) => {
             state.startingDate = action.payload;
         },
-        setEndingDate: (state: SearchFiltersInput, action: PayloadAction<Date | null>) => {
+        setEndingDate: (state: SearchFiltersInput, action: PayloadAction<string>) => {
             state.endingDate = action.payload;
         },
         setProjectIds: (state: SearchFiltersInput, action: PayloadAction<string[]>) => {
@@ -31,6 +31,10 @@ const searchFiltersSlice = createSlice({
         },
         setProjectManagementPlatforms: (state: SearchFiltersInput, action: PayloadAction<ProjectManagementPlatform[]>) => {
             state.projectManagementPlatforms = action.payload;
+        },
+        clearFilters: (state: SearchFiltersInput) => {
+            console.log(initialState)
+            return initialState
         }
     }
 });
@@ -41,7 +45,8 @@ export const {
     setEndingDate,
     setProjectIds,
     setIsSearchingActiveEmployees,
-    setProjectManagementPlatforms
+    setProjectManagementPlatforms,
+    clearFilters
 } = searchFiltersSlice.actions;
 
 export default searchFiltersSlice.reducer;

@@ -1,13 +1,14 @@
 export type SearchFiltersInput = {
     searchText: string[];
-    startingDate: Date | null;
-    endingDate: Date | null;
+    startingDate: string;
+    endingDate: string;
     projectIds: string[];
     isSearchingActiveEmployees: boolean;
     projectManagementPlatforms: ProjectManagementPlatform[];
 }
 
 export enum ProjectManagementPlatform {
-    DEVOPS,
-    JIRA
+    AZURE = 'AZURE',
+    JIRA = 'JIRA',
+    TRELLO = 'TRELLO'
 }
