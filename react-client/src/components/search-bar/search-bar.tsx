@@ -26,7 +26,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                 onChange={handleTagChange}
                 tokenSeparators={[' ', ',']}
                 value={selectedTags}
-                className="ml-4"
             >
                 {selectedTags.map(tag => (
                     <Option key={tag} value={tag}>
