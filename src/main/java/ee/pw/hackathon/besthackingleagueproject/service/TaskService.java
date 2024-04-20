@@ -68,7 +68,14 @@ public class TaskService {
                 .map(String::valueOf)
                 .toList();
 
-        String query = "SELECT * FROM workitems WHERE";
+        String query = "SELECT * FROM workitems";
+
+        if (
+                searchFiltersInput.getStartingDate() != null ||
+                        searchFiltersInput.getEndingDate() != null
+        ) {
+            query += " WHERE";
+        }
 
         if (searchFiltersInput.getStartingDate() != null) {
             query +=
