@@ -1,9 +1,9 @@
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: root
-    password: root
+  #  datasource:
+  #    driver-class-name: org.postgresql.Driver
+  #    url: jdbc:postgresql://localhost:5432/postgres
+  #    username: root
+  #    password: root
   jpa:
     show-sql: true
     hibernate:
@@ -11,3 +11,8 @@ spring:
 
 server:
   port: 8080
+
+
+azure-devops:
+  api-key: wbgg3ibloixmqyhvcxfljo57qbw4we7abbz2mylm6thtnfu5z5yq
+  organization: ChallengeMeProject
