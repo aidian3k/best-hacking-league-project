@@ -5,9 +5,9 @@ import columns from './columns';
 const PeopleTable = () => {
   return (
       <>
-        <Table dataSource={data} columns={columns} />
+        <Table style={{width: '75%'}} dataSource={data} columns={columns} />
       </>
   )
 }
 
-export default PeopleTable
+export default PeopleTable;
