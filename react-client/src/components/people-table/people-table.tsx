@@ -5,7 +5,7 @@ import columns from './columns';
 const PeopleTable = () => {
   return (
       <>
-        <Table style={{width: '75%'}} dataSource={data} columns={columns} />
+        <Table style={{width: '100%'}} dataSource={data} columns={columns} />
       </>
   )
 }
