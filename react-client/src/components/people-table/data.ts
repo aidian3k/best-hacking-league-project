@@ -1,6 +1,6 @@
-import {DataType} from "./columns";
+import {MatchingTasksTableData} from "./columns";
 
-const data: DataType[] = [
+const data: MatchingTasksTableData[] = [
   {
     key: '1',
     name: 'John Brown',

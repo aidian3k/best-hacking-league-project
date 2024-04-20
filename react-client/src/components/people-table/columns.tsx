@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Space, TableProps, Tag} from 'antd';
 import {MailOutlined, PhoneOutlined, TeamOutlined} from "@ant-design/icons";
 
-interface DataType {
+interface MatchingTasksTableData {
   key: string;
   name: string;
   picture: string;
@@ -31,7 +31,7 @@ const colors = [
   'purple',
 ];
 
-const columns: TableProps<DataType>['columns'] = [
+const columns: TableProps<MatchingTasksTableData>['columns'] = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -94,5 +94,5 @@ const columns: TableProps<DataType>['columns'] = [
   },
 ];
 
-export type {DataType};
+export type {MatchingTasksTableData};
 export default columns;
