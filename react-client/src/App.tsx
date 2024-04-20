@@ -11,9 +11,15 @@ function App() {
 
     return (
         <>
-            <Navbar/>
-            <SearchBar onSearch={handleSearch}/>
-            <PeopleTable/>
+            <div style={{ marginBottom: '20px' }}>
+                <Navbar/>
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+                <SearchBar onSearch={handleSearch}/>
+            </div>
+            <div style={{ padding: '20px' }}>
+                <PeopleTable/>
+            </div>
         </>
     )
 }
