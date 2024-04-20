@@ -1,6 +1,8 @@
 package ee.pw.hackathon.besthackingleagueproject.controller;
 
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SearchFiltersInput;
+import ee.pw.hackathon.besthackingleagueproject.dto.input.SingleEmployeeDetailedFilters;
+import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeDetailedResponse;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeMatchingTextResponse;
 import ee.pw.hackathon.besthackingleagueproject.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,17 @@ class TaskController {
                 taskService.getAggregatedResponseBasedOnSearchFilters(
                         searchFiltersInput,
                         pageable
+                )
+        );
+    }
+
+    @GetMapping("/single-employee-details")
+    public ResponseEntity<SingleEmployeeDetailedResponse> handleSingleEmployeeDetailedResponse(
+            @RequestBody SingleEmployeeDetailedFilters singleEmployeeDetailedFilters
+    ) {
+        return ResponseEntity.ok(
+                taskService.getSingleEmployeeDetailedResponse(
+                        singleEmployeeDetailedFilters
                 )
         );
     }

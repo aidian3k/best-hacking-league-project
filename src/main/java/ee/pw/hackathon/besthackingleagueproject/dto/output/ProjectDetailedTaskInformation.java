@@ -15,5 +15,6 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 public class ProjectDetailedTaskInformation {
     private String projectName;
-    private String totalStoryPoints;
+    private Long totalNumberOfTasks;
+    private double totalNumberOfStoryPoints;
 }
