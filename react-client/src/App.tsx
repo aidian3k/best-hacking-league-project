@@ -1,8 +1,13 @@
 import './App.css';
-import {DatePicker} from "antd";
+import PeopleTable from "./components/people-table/people-table";
 
 function App() {
-  return <DatePicker />;
+  return (
+      <>
+        <div className={"text-cyan-600"}>sss</div>
+        <PeopleTable/>
+      </>
+  )
 }
 
 export default App;
