@@ -1,8 +1,9 @@
 import { Table } from "antd";
-import data from './data';
 import columns from './columns';
+import { PeopleTableProps } from "./people-table.types";
+import { FC } from "react";
 
-const PeopleTable = () => {
+const PeopleTable: FC<PeopleTableProps> = ({ data }) => {
   return (
       <>
         <Table style={{width: '75%'}} dataSource={data} columns={columns} />
