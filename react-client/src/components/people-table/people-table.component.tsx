@@ -5,8 +5,20 @@ import React from 'react';
 import {Button, Space, TableProps, Tag} from 'antd';
 import {MailOutlined, PhoneOutlined, TeamOutlined} from "@ant-design/icons";
 import { MatchingTasksTableData } from "./columns";
+import FoundedUserTasksModal from "../founded-user-tasks-modal/founded-user-tasks-modal";
 
 const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) => {
+  const [selectedFoundedUser, setSelectedFoundedUser] = useState<MatchingTasksTableData | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleViewFoundedUserTasks = (record: MatchingTasksTableData | null) => {
+      if (!record) {
+        return
+      }
+        setSelectedFoundedUser(record);
+        setModalVisible(true);
+    };
+
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
@@ -89,9 +101,13 @@ const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) =>
   ];
 
   return (
-      <>
-        <Table style={{width: '75%'}} dataSource={data} columns={columns} loading={loading} />
-      </>
+    <>
+    <Table style={{width: '100%'}} dataSource={data} columns={columns} />
+    <Button onClick={() => handleViewFoundedUserTasks(data[0])}>View</Button>
+    {selectedFoundedUser && (
+        <FoundedUserTasksModal visible={modalVisible} profileData={selectedFoundedUser} onClose={() => setModalVisible(false)} />
+    )}
+</>
   )
 }
 

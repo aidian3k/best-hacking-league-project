@@ -35,11 +35,11 @@ function App() {
         <div style={{marginBottom: '20px'}}>
           <Navbar/>
         </div>
-        <div className="grid grid-cols-12 gap-4 p-6">
+        <div className="grid grid-cols-12 gap-4 p-4 ml-32">
           <div className="col-span-2 p-4 w-full">
             <Filters/>
           </div>
-          <div className="col-span-10 bg-white p-4">
+          <div className="col-span-10 bg-white p-4 mr-32">
             <SearchBar onSearch={handleSearch}/>
             <h2 className="text-xl font-bold mb-4 mt-8">People Table</h2>
             <PeopleTable data={tableData} loading={loadingTasks} displayDetails={displayDetails}/>
