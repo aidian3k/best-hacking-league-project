@@ -26,7 +26,7 @@ public class SingleMatchingTaskDetail {
     private String taskTitle;
     private String taskDescription; // should be only one matched from the task
     private String taskStatus;
-    private String taskUrl;
+    private Object otherLinks;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)

@@ -8,11 +8,13 @@ const navigation = [
     { name: 'Integrations', href: '#', current: false }
 ]
 
+const at = "Biały człowiek to "
+
 function classNames(...classes : string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Navbar() {
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
@@ -32,13 +34,9 @@ export default function Example() {
                                 </Disclosure.Button>
                             </div>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                                <div className="flex flex-shrink-0 items-center">
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                        alt="Your Company"
-                                    />
-                                </div>
+                                <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">
+                                    Skill Spotter
+                                </h1>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
@@ -57,8 +55,9 @@ export default function Example() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <button
+                            <div
+                                className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <button
                                     type="button"
                                     className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                 >
