@@ -12,12 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -30,8 +31,8 @@ class TaskController {
 
     @PostMapping("/matching-tasks")
     public ResponseEntity<Page<SingleEmployeeMatchingTextResponse>> handleSearchingForMatchingTextTasks(
-        @RequestParam int pageNumber, @RequestParam int pageSize,
-        @RequestBody SearchFiltersInputRequest searchFiltersInput
+            @RequestParam int pageNumber, @RequestParam int pageSize,
+            @RequestBody SearchFiltersInputRequest searchFiltersInput
     ) throws AzDException {
         return ResponseEntity.ok(
                 taskService.getAggregatedResponseBasedOnSearchFilters(
@@ -41,8 +42,8 @@ class TaskController {
         );
     }
 
-    @GetMapping("/single-employee-details")
-    public ResponseEntity<SingleEmployeeDetailedResponse> handleSingleEmployeeDetailedResponse(
+    @PostMapping("/single-employee-details")
+    public ResponseEntity<List<SingleEmployeeDetailedResponse>> handleSingleEmployeeDetailedResponse(
             @RequestBody SingleEmployeeDetailedFilters singleEmployeeDetailedFilters
     ) {
         return ResponseEntity.ok(
