@@ -46,8 +46,8 @@ const FoundedUserTasksModal: React.FC<FoundedUserTasksModalProps> = ({
                         id: td.taskId,
                         title: td.taskTitle,
                         status: td.taskStatus,
-                        link: td.taskUrl,
-                        description: td.taskDescription
+                        link: td.otherLinks.html.href,
+                        description: td.taskDescription,
                     }
                 })
             } as ProjectItem

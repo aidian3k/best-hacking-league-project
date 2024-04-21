@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {TaskItem} from "../project-entry/project-entry.types";
 
-const TaskEntry = ({task, link}: { task: TaskItem, link: string }) => {
+const TaskEntry = ({task}: { task: TaskItem}) => {
   const [generatedLink, setGeneratedLink] = useState('');
 
   function strip(html: string){
@@ -34,7 +34,7 @@ const TaskEntry = ({task, link}: { task: TaskItem, link: string }) => {
   return (
       <div>
         <div className={'flex flex-row gap-5'}>
-          <a href={link} target="_blank"
+          <a href={task.link} target="_blank"
              className={'font-medium text-blue-600 dark:text-blue-500 hover:underline'}>{task.title}</a>
           <p>{getDesc(task.description)}</p>
           <p>{mapStatus(task.status)}</p>
