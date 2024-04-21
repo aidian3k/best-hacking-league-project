@@ -8,6 +8,7 @@ import ee.pw.hackathon.besthackingleagueproject.dto.output.ProjectDetailedTaskIn
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeDetailedResponse;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeMatchingTextResponse;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleMatchingTaskDetail;
+import ee.pw.hackathon.besthackingleagueproject.helpers.PageUtilities;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -204,17 +205,18 @@ public class TaskService {
                             .totalNumberOfFoundTasks((long) authorWorkItems.size())
                             .employeeTitle("Junior Developer")
                             .matchingTasksIds(
-                                    authorWorkItems
-                                            .stream()
-                                            .map(workItem -> workItem.getFields().getSystemId())
-                                            .toList()
+                                    authorWorkItems.stream().map(WorkItem::getId).toList()
                             )
                             .build();
                 })
                 .toList();
 
         return new PageImpl<>(
-                singleEmployeeMatchingTextResponses,
+                PageUtilities.getPage(
+                        singleEmployeeMatchingTextResponses,
+                        pageable.getPageNumber() + 1,
+                        pageable.getPageSize()
+                ),
                 pageable,
                 singleEmployeeMatchingTextResponses.size()
         );
