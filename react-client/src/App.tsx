@@ -3,12 +3,13 @@ import PeopleTable from "./components/people-table/people-table.component";
 import Filters from './components/filters/filters.component';
 import Navbar from "./components/navbar/navbar";
 import SearchBar from "./components/search-bar/search-bar.component";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './redux/store';
-import { setSearchText } from './redux/filters/Filters.slice';
-import { useEffect, useState } from 'react';
-import { MatchingTasksTableData } from './components/people-table/columns';
-import { getMatchingTasks } from './tools/api/matching-tasks/matching-tasks.service';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from './redux/store';
+import {setSearchText} from './redux/filters/Filters.slice';
+import {useState} from 'react';
+import {MatchingTasksTableData} from './components/people-table/columns';
+import {getMatchingTasks} from './tools/api/matching-tasks/matching-tasks.service';
+import SearchBar from "./components/search-bar/search-bar";
 
 function App() {
   const filters = useSelector((state: RootState) => state.filters);
