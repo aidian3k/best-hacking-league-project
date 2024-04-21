@@ -21,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             <Select
                 size={'large'}
                 mode="tags"
-                style={{ flex: 0.8 }}
+                style={{ flex: 1 }}
                 placeholder="Type and press Enter to add tags"
                 onChange={handleTagChange}
                 tokenSeparators={[' ', ',']}
@@ -33,7 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                     </Option>
                 ))}
             </Select>
-            <Button type="primary" size={'large'} onClick={handleSearchClick} className="mx-4">
+            <Button type="primary" size={'large'} onClick={handleSearchClick} className="ml-4">
                 Search
             </Button>
         </div>
