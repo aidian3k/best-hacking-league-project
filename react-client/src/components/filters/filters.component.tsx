@@ -31,7 +31,6 @@ const Filters = () => {
             activeFiltersCount++;
         }
         if (filters.projectManagementPlatforms.length != 0) {
-            console.log(filters.projectManagementPlatforms.length);
             activeFiltersCount++;
         }
 
@@ -42,7 +41,6 @@ const Filters = () => {
         if (!date) {
             return;
         }
-        console.log(date.toDate().toLocaleDateString())
         dispatch(setStartingDate(date.toDate().toLocaleDateString()))
     };
 
@@ -50,7 +48,6 @@ const Filters = () => {
         if (!date) {
             return
         }
-        console.log(date.toDate().toISOString())
         dispatch(setEndingDate(date.toDate().toLocaleDateString()))
     };
     

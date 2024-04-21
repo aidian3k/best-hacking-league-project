@@ -2,12 +2,12 @@ import { SearchFiltersInput } from "../../../redux/filters/Filters.types";
 import { PageWrapper } from "../api-service.types"
 
 export type MatchingTasksRequestBody = {
-    pageable: PageWrapper;
+    pageable?: PageWrapper;
     searchFiltersInput: SearchFiltersInput;
 }
 
 export type MatchingTasksResponse = {
-    author: Author
+    employee: Employee
     projectName: string
     totalNumberOfStoryPoints: number
     totalNumberOfFoundTasks: number
@@ -15,15 +15,12 @@ export type MatchingTasksResponse = {
     matchingTasksIds: number[]
   }
   
-  export type Author = {
-    continuationToken: string
-    displayName: string
-    url: string
-    _links: Links
-    id: string
-    uniqueName: string
-    imageUrl: string
-    descriptor: string
-  }
+export type Employee = {
+    id: string;
+    displayName: string;
+    imageUrl: string;
+    uniqueName: string;
+    employeeTitle: string;
+}
   
-  export type Links = {}
+export type Links = {}

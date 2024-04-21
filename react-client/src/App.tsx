@@ -14,15 +14,21 @@ function App() {
   const filters = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState<MatchingTasksTableData[]>([]);
+  const [loadingTasks, setLoadingTasks] = useState(false);
 
   const handleSearch = (query: string[]) => {
-    console.log(query)
     const filtersToSend = {...filters, searchText: query}
     dispatch(setSearchText(query))
-    getMatchingTasks(filtersToSend, 1, 10)
-      .then(tasks => setTableData(tasks))
+    setLoadingTasks(true)
+    getMatchingTasks(filtersToSend, 0, 10)
+      .then(tasks => {setTableData(tasks)})
       .catch(e => alert('Nie udało się wyszukać pracowników'))
+      .finally(() => setLoadingTasks(false))
   };
+
+  const displayDetails = () => {
+    console.log('details')
+  }
 
   return (
       <>
@@ -36,7 +42,7 @@ function App() {
           <div className="col-span-10 bg-white p-4">
             <SearchBar onSearch={handleSearch}/>
             <h2 className="text-xl font-bold mb-4 mt-8">People Table</h2>
-            <PeopleTable data={tableData} />
+            <PeopleTable data={tableData} loading={loadingTasks} displayDetails={displayDetails}/>
           </div>
         </div>
       </>
