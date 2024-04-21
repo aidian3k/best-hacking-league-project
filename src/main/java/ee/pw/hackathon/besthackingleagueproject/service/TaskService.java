@@ -1,6 +1,7 @@
 package ee.pw.hackathon.besthackingleagueproject.service;
 
 import ee.pw.hackathon.besthackingleagueproject.domain.AzDoCoreApiConfiguration;
+import ee.pw.hackathon.besthackingleagueproject.domain.Employee;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SearchFiltersInput;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SingleEmployeeDetailedFilters;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.ProjectDetailedTaskInformation;
@@ -160,13 +161,23 @@ public class TaskService {
                 })
                 .toList();
 
-        Map<Author, List<WorkItem>> workItemsGroupedByAuthor = filteredWorkItemsBySearchText
+        Map<Employee, List<WorkItem>> workItemsGroupedByAuthor = filteredWorkItemsBySearchText
                 .stream()
                 .collect(
                         Collectors.groupingBy(workItem -> {
                             final WorkItemFields workItemFields = workItem.getFields();
+                            final Author author = workItemFields.getSystemAssignedTo();
 
-                            return workItemFields.getSystemAssignedTo();
+                            final Employee employee = Employee
+                                    .builder()
+                                    .uniqueName(author.getUniqueName())
+                                    .displayName(author.getDisplayName())
+                                    .imageUrl(author.getImageUrl())
+                                    .id(author.getId())
+                                    .employeeTitle("Junior Developer")
+                                    .build();
+
+                            return employee;
                         })
                 );
 
@@ -174,12 +185,12 @@ public class TaskService {
                 .entrySet()
                 .stream()
                 .map(entry -> {
-                    final Author author = entry.getKey();
+                    final Employee employee = entry.getKey();
                     final List<WorkItem> authorWorkItems = entry.getValue();
 
                     return SingleEmployeeMatchingTextResponse
                             .builder()
-                            .author(author)
+                            .employee(employee)
                             .projectName(
                                     authorWorkItems.get(0).getFields().getSystemTeamProject()
                             )
