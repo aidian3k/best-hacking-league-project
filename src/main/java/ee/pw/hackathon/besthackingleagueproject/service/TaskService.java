@@ -257,7 +257,7 @@ public class TaskService {
                                                         .taskTitle(workItem.getFields().getSystemTitle())
                                                         .taskDescription(workItem.getFields().getSystemDescription())
                                                         .taskTags(workItem.getFields().getSystemTags())
-                                                        .taskUrl(workItem.getUrl())
+                                                        .otherLinks(workItem.get_links())
                                                         .taskStatus(workItem.getFields().getSystemState())
                                                         .changedDate(
                                                                 ZonedDateTime
