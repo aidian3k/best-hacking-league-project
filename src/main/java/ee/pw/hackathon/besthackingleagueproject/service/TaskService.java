@@ -2,7 +2,11 @@ package ee.pw.hackathon.besthackingleagueproject.service;
 
 import ee.pw.hackathon.besthackingleagueproject.domain.AzDoCoreApiConfiguration;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SearchFiltersInput;
+import ee.pw.hackathon.besthackingleagueproject.dto.input.SingleEmployeeDetailedFilters;
+import ee.pw.hackathon.besthackingleagueproject.dto.output.ProjectDetailedTaskInformation;
+import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeDetailedResponse;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeMatchingTextResponse;
+import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleMatchingTaskDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -194,6 +200,93 @@ public class TaskService {
                 pageable,
                 singleEmployeeMatchingTextResponses.size()
         );
+    }
+
+    public SingleEmployeeDetailedResponse getSingleEmployeeDetailedResponse(
+            SingleEmployeeDetailedFilters singleEmployeeDetailedFilters
+    ) {
+        final WorkItemTrackingApi workItemTrackingApi = azDoCoreApiConfiguration
+                .getAzureDevopsApi()
+                .getWorkItemTrackingApi();
+
+        final List<Integer> matchingTaskIds = singleEmployeeDetailedFilters.getMatchingTasksIds();
+
+        List<WorkItem> matchingWorkItems = matchingTaskIds
+                .stream()
+                .map(workItemId -> {
+                    try {
+                        return workItemTrackingApi.getWorkItem(workItemId);
+                    } catch (AzDException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .toList();
+
+        Map<String, List<SingleMatchingTaskDetail>> employeeMatchDetailsBasedOnProjectName = matchingWorkItems
+                .stream()
+                .collect(
+                        Collectors.groupingBy(
+                                workItem -> workItem.getFields().getSystemTeamProject(),
+                                Collectors.mapping(
+                                        workItem ->
+                                                SingleMatchingTaskDetail
+                                                        .builder()
+                                                        .taskId(workItem.getId())
+                                                        .taskTitle(workItem.getFields().getSystemTitle())
+                                                        .taskDescription(workItem.getFields().getSystemDescription())
+                                                        .taskTags(workItem.getFields().getSystemTags())
+                                                        .taskUrl(workItem.getUrl())
+                                                        .taskStatus(workItem.getFields().getSystemState())
+                                                        .changedDate(
+                                                                LocalDateTime.parse(
+                                                                        workItem.getFields().getSystemChangedDate()
+                                                                )
+                                                        )
+                                                        .build(),
+                                        Collectors.toList()
+                                )
+                        )
+                );
+
+        Map<ProjectDetailedTaskInformation, List<SingleMatchingTaskDetail>> employeeDetailsMap = new HashMap<>();
+
+        employeeMatchDetailsBasedOnProjectName.forEach(
+                (projectName, singleMatchingTaskDetails) -> {
+                    ProjectDetailedTaskInformation projectDetailedTaskInformation = ProjectDetailedTaskInformation
+                            .builder()
+                            .projectName(projectName)
+                            .totalNumberOfTasks((long) singleMatchingTaskDetails.size())
+                            .totalNumberOfStoryPoints(
+                                    singleMatchingTaskDetails
+                                            .stream()
+                                            .mapToDouble(SingleMatchingTaskDetail::getStoryPoints)
+                                            .sum()
+                            )
+                            .build();
+
+                    employeeDetailsMap.put(
+                            projectDetailedTaskInformation,
+                            employeeMatchDetailsBasedOnProjectName
+                                    .get(projectName)
+                                    .stream()
+                                    .sorted((o1, o2) -> {
+                                        if (o1.getChangedDate().isBefore(o2.getChangedDate())) {
+                                            return 1;
+                                        } else if (o1.getChangedDate().isEqual(o2.getChangedDate())) {
+                                            return 0;
+                                        }
+
+                                        return -1;
+                                    })
+                                    .toList()
+                    );
+                }
+        );
+
+        return SingleEmployeeDetailedResponse
+                .builder()
+                .employeeTaskDetails(employeeDetailsMap)
+                .build();
     }
 
     private boolean workFieldContainsTextBasedOnSearchText(

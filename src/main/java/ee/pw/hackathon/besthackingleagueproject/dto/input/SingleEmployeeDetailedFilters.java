@@ -1,6 +1,5 @@
 package ee.pw.hackathon.besthackingleagueproject.dto.input;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,13 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Jacksonized
 @Builder
-class SingleEmployeeDetailedFilters {
+public class SingleEmployeeDetailedFilters {
 
-	private List<String> matchingTasksIds;
+    private List<Integer> matchingTasksIds;
 }
