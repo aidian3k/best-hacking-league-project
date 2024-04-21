@@ -11,9 +11,9 @@ interface FoundedUserTasksModalProps {
 const FoundedUserTasksModal: React.FC<FoundedUserTasksModalProps> = ({ visible, onClose, profileData }) => {
     return (
         <Modal
-            visible={visible}
+            open={visible}
             onCancel={onClose}
-            width={800}
+            width={'80%'}
             footer={null} // We'll handle actions within the modal content
         >
             <div className={'flex flex-row gap-5'}>
@@ -23,7 +23,7 @@ const FoundedUserTasksModal: React.FC<FoundedUserTasksModalProps> = ({ visible, 
                 <div className={'flex flex-col'}>
                     <h1>{profileData.name}</h1>
                     <p className={'text-gray-400 text-xs'}>+48 555 444 333</p>
-                    <p className={'text-gray-400 text-xs'}>JohnBrown@challengeme.com</p>
+                    <p className={'text-gray-400 text-xs'}>{profileData.email}</p>
                 </div>
             </div>
             <div>
