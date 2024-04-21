@@ -307,7 +307,7 @@ public class TaskService {
         return searchTexts
                 .stream()
                 .anyMatch(searchText ->
-                        searchText.toLowerCase().contains(workField.toLowerCase())
+                        workField.toLowerCase().contains(searchText.toLowerCase())
                 );
     }
 }
