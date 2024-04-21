@@ -1,6 +1,6 @@
 package ee.pw.hackathon.besthackingleagueproject.dto.output;
 
-import ee.pw.hackathon.besthackingleagueproject.domain.Employee;
+import ee.pw.hackathon.besthackingleagueproject.domain.employeefinding.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

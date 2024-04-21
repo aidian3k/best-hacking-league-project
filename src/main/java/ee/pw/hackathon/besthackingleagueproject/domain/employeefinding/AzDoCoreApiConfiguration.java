@@ -1,4 +1,4 @@
-package ee.pw.hackathon.besthackingleagueproject.domain;
+package ee.pw.hackathon.besthackingleagueproject.domain.employeefinding;
 
 import lombok.Getter;
 import org.azd.utils.AzDClientApi;

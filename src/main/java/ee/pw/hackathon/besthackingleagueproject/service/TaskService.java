@@ -1,7 +1,7 @@
 package ee.pw.hackathon.besthackingleagueproject.service;
 
-import ee.pw.hackathon.besthackingleagueproject.domain.AzDoCoreApiConfiguration;
-import ee.pw.hackathon.besthackingleagueproject.domain.Employee;
+import ee.pw.hackathon.besthackingleagueproject.domain.employeefinding.AzDoCoreApiConfiguration;
+import ee.pw.hackathon.besthackingleagueproject.domain.employeefinding.Employee;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SearchFiltersInput;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SingleEmployeeDetailedFilters;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.ProjectDetailedTaskInformation;

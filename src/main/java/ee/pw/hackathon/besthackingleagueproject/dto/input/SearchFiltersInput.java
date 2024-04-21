@@ -1,6 +1,6 @@
 package ee.pw.hackathon.besthackingleagueproject.dto.input;
 
-import ee.pw.hackathon.besthackingleagueproject.domain.ProjectManagementPlatform;
+import ee.pw.hackathon.besthackingleagueproject.domain.employeefinding.ProjectManagementPlatform;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

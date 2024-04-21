@@ -12,7 +12,11 @@ spring:
 server:
   port: 8080
 
-
 azure-devops:
   api-key: wbgg3ibloixmqyhvcxfljo57qbw4we7abbz2mylm6thtnfu5z5yq
   organization: ChallengeMeProject
+
+access-keys:
+  open-ai: "${OPEN_AI_API_KEY}"
+  aws-access-key: "${AWS_ACCESS_KEY}"
+  aws-secret-key: "${AWS_SECRET_KEY_ACCESS}"
