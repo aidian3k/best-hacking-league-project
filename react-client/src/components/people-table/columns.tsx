@@ -7,6 +7,7 @@ interface MatchingTasksTableData {
   team: string;
   story_points: number;
   actions: string[];
+  matching_tasks: number;
   matchingTasksIds: number[];
   email: string;
   

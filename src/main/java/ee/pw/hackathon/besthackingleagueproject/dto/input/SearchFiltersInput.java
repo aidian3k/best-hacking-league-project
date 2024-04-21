@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -22,11 +22,11 @@ public class SearchFiltersInput {
 
     private List<String> searchText;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime startingDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate startingDate;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime endingDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate endingDate;
 
     private List<String> projectIds;
     private boolean isSearchingActiveEmployees;
