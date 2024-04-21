@@ -94,7 +94,7 @@ const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) =>
           <Space size="middle">
             <Button icon={<MailOutlined/>}>Email</Button>
             <Button icon={<PhoneOutlined/>}>Call</Button>
-            <Button icon={<TeamOutlined/>} type={'primary'} onClick={displayDetails}>View Profile</Button>
+            <Button icon={<TeamOutlined/>} type={'primary'} onClick={() => handleViewFoundedUserTasks(record)}>View Details</Button>
           </Space>
       ),
     },
@@ -102,8 +102,7 @@ const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) =>
 
   return (
     <>
-    <Table style={{width: '100%'}} dataSource={data} columns={columns} />
-    <Button onClick={() => handleViewFoundedUserTasks(data[0])}>View</Button>
+    <Table style={{width: '100%'}} dataSource={data} columns={columns} loading={loading} />
     {selectedFoundedUser && (
         <FoundedUserTasksModal visible={modalVisible} profileData={selectedFoundedUser} onClose={() => setModalVisible(false)} />
     )}

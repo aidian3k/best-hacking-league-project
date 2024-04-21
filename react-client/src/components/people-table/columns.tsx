@@ -8,6 +8,8 @@ interface MatchingTasksTableData {
   story_points: number;
   actions: string[];
   matchingTasksIds: number[];
+  email: string;
+  
 }
 
 export type {MatchingTasksTableData};
