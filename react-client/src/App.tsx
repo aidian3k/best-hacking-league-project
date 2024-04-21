@@ -2,13 +2,13 @@ import './App.css';
 import PeopleTable from "./components/people-table/people-table.component";
 import Filters from './components/filters/filters.component';
 import Navbar from "./components/navbar/navbar";
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from './redux/store';
+import {setSearchText} from './redux/filters/Filters.slice';
+import {useState} from 'react';
+import {MatchingTasksTableData} from './components/people-table/columns';
+import {getMatchingTasks} from './tools/api/matching-tasks/matching-tasks.service';
 import SearchBar from "./components/search-bar/search-bar.component";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './redux/store';
-import { setSearchText } from './redux/filters/Filters.slice';
-import { useEffect, useState } from 'react';
-import { MatchingTasksTableData } from './components/people-table/columns';
-import { getMatchingTasks } from './tools/api/matching-tasks/matching-tasks.service';
 
 function App() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -21,9 +21,11 @@ function App() {
     dispatch(setSearchText(query))
     setLoadingTasks(true)
     getMatchingTasks(filtersToSend, 0, 10)
-      .then(tasks => {setTableData(tasks)})
-      .catch(e => alert('Nie udało się wyszukać pracowników'))
-      .finally(() => setLoadingTasks(false))
+    .then(tasks => {
+      setTableData(tasks)
+    })
+    .catch(e => alert('Nie udało się wyszukać pracowników'))
+    .finally(() => setLoadingTasks(false))
   };
 
   const displayDetails = () => {
