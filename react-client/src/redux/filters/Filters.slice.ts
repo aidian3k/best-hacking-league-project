@@ -33,7 +33,6 @@ const searchFiltersSlice = createSlice({
             state.projectManagementPlatforms = action.payload;
         },
         clearFilters: (state: SearchFiltersInput) => {
-            console.log(initialState)
             return initialState
         }
     }

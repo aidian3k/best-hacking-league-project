@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Select, Button } from 'antd';
-import { SearchBarProps } from './types';
+import { SearchBarProps } from './search-bar.types';
 
 const { Option } = Select;
 
@@ -12,8 +12,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     };
 
     const handleSearchClick = () => {
-        const searchText = selectedTags.join(' ');
-        onSearch(searchText);
+        onSearch(selectedTags);
     };
 
     return (

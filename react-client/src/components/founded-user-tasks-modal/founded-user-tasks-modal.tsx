@@ -1,11 +1,11 @@
 import React from 'react';
 import { Modal } from 'antd';
-import {DataType} from "../people-table/columns";
+import {MatchingTasksTableData} from "../people-table/columns";
 
 interface FoundedUserTasksModalProps {
     visible: boolean;
     onClose: () => void;
-    profileData: DataType;
+    profileData: MatchingTasksTableData;
 }
 
 const FoundedUserTasksModal: React.FC<FoundedUserTasksModalProps> = ({ visible, onClose, profileData }) => {

@@ -24,6 +24,7 @@ export type Pageable = {
 export type PageWrapper = {
   page: number;
   size: number;
+  sort: string[];
 };
 
 export type ApiResponse<T> =

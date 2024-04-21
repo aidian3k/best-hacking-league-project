@@ -1,12 +1,14 @@
 package ee.pw.hackathon.besthackingleagueproject.service;
 
 import ee.pw.hackathon.besthackingleagueproject.domain.AzDoCoreApiConfiguration;
+import ee.pw.hackathon.besthackingleagueproject.domain.Employee;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SearchFiltersInput;
 import ee.pw.hackathon.besthackingleagueproject.dto.input.SingleEmployeeDetailedFilters;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.ProjectDetailedTaskInformation;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeDetailedResponse;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleEmployeeMatchingTextResponse;
 import ee.pw.hackathon.besthackingleagueproject.dto.output.SingleMatchingTaskDetail;
+import ee.pw.hackathon.besthackingleagueproject.helpers.PageUtilities;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +29,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,7 +72,14 @@ public class TaskService {
                 .map(String::valueOf)
                 .toList();
 
-        String query = "SELECT * FROM workitems WHERE";
+        String query = "SELECT * FROM workitems";
+
+        if (
+                searchFiltersInput.getStartingDate() != null ||
+                        searchFiltersInput.getEndingDate() != null
+        ) {
+            query += " WHERE";
+        }
 
         if (searchFiltersInput.getStartingDate() != null) {
             query +=
@@ -153,13 +164,23 @@ public class TaskService {
                 })
                 .toList();
 
-        Map<Author, List<WorkItem>> workItemsGroupedByAuthor = filteredWorkItemsBySearchText
+        Map<Employee, List<WorkItem>> workItemsGroupedByAuthor = filteredWorkItemsBySearchText
                 .stream()
                 .collect(
                         Collectors.groupingBy(workItem -> {
                             final WorkItemFields workItemFields = workItem.getFields();
+                            final Author author = workItemFields.getSystemAssignedTo();
 
-                            return workItemFields.getSystemAssignedTo();
+                            final Employee employee = Employee
+                                    .builder()
+                                    .uniqueName(author.getUniqueName())
+                                    .displayName(author.getDisplayName())
+                                    .imageUrl(author.getImageUrl())
+                                    .id(author.getId())
+                                    .employeeTitle("Junior Developer")
+                                    .build();
+
+                            return employee;
                         })
                 );
 
@@ -167,12 +188,12 @@ public class TaskService {
                 .entrySet()
                 .stream()
                 .map(entry -> {
-                    final Author author = entry.getKey();
+                    final Employee employee = entry.getKey();
                     final List<WorkItem> authorWorkItems = entry.getValue();
 
                     return SingleEmployeeMatchingTextResponse
                             .builder()
-                            .author(author)
+                            .employee(employee)
                             .projectName(
                                     authorWorkItems.get(0).getFields().getSystemTeamProject()
                             )
@@ -186,23 +207,24 @@ public class TaskService {
                             .totalNumberOfFoundTasks((long) authorWorkItems.size())
                             .employeeTitle("Junior Developer")
                             .matchingTasksIds(
-                                    authorWorkItems
-                                            .stream()
-                                            .map(workItem -> workItem.getFields().getSystemId())
-                                            .toList()
+                                    authorWorkItems.stream().map(WorkItem::getId).toList()
                             )
                             .build();
                 })
                 .toList();
 
         return new PageImpl<>(
-                singleEmployeeMatchingTextResponses,
+                PageUtilities.getPage(
+                        singleEmployeeMatchingTextResponses,
+                        pageable.getPageNumber() + 1,
+                        pageable.getPageSize()
+                ),
                 pageable,
                 singleEmployeeMatchingTextResponses.size()
         );
     }
 
-    public SingleEmployeeDetailedResponse getSingleEmployeeDetailedResponse(
+    public List<SingleEmployeeDetailedResponse> getSingleEmployeeDetailedResponse(
             SingleEmployeeDetailedFilters singleEmployeeDetailedFilters
     ) {
         final WorkItemTrackingApi workItemTrackingApi = azDoCoreApiConfiguration
@@ -238,9 +260,12 @@ public class TaskService {
                                                         .taskUrl(workItem.getUrl())
                                                         .taskStatus(workItem.getFields().getSystemState())
                                                         .changedDate(
-                                                                LocalDateTime.parse(
-                                                                        workItem.getFields().getSystemChangedDate()
-                                                                )
+                                                                ZonedDateTime
+                                                                        .parse(
+                                                                                workItem.getFields().getSystemChangedDate(),
+                                                                                DateTimeFormatter.ISO_DATE_TIME
+                                                                        )
+                                                                        .toLocalDateTime()
                                                         )
                                                         .build(),
                                         Collectors.toList()
@@ -259,6 +284,9 @@ public class TaskService {
                             .totalNumberOfStoryPoints(
                                     singleMatchingTaskDetails
                                             .stream()
+                                            .filter(taskDetails ->
+                                                    Objects.nonNull(taskDetails.getStoryPoints())
+                                            )
                                             .mapToDouble(SingleMatchingTaskDetail::getStoryPoints)
                                             .sum()
                             )
@@ -283,10 +311,20 @@ public class TaskService {
                 }
         );
 
-        return SingleEmployeeDetailedResponse
-                .builder()
-                .employeeTaskDetails(employeeDetailsMap)
-                .build();
+        return employeeDetailsMap
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    final ProjectDetailedTaskInformation projectDetailedTaskInformation = entry.getKey();
+                    final List<SingleMatchingTaskDetail> singleMatchingTaskDetails = entry.getValue();
+
+                    return SingleEmployeeDetailedResponse
+                            .builder()
+                            .projectDetailedTaskInformation(projectDetailedTaskInformation)
+                            .singleMatchingTaskDetail(singleMatchingTaskDetails)
+                            .build();
+                })
+                .toList();
     }
 
     private boolean workFieldContainsTextBasedOnSearchText(
@@ -300,7 +338,7 @@ public class TaskService {
         return searchTexts
                 .stream()
                 .anyMatch(searchText ->
-                        searchText.toLowerCase().contains(workField.toLowerCase())
+                        workField.toLowerCase().contains(searchText.toLowerCase())
                 );
     }
 }

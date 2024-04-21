@@ -1,12 +1,12 @@
 package ee.pw.hackathon.besthackingleagueproject.dto.output;
 
+import ee.pw.hackathon.besthackingleagueproject.domain.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
-import org.azd.common.types.Author;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 public class SingleEmployeeMatchingTextResponse {
 
-    private Author author;
+    private Employee employee;
     private String projectName;
     private double totalNumberOfStoryPoints;
     private Long totalNumberOfFoundTasks;
