@@ -1,10 +1,8 @@
-import { Table } from "antd";
-import { PeopleTableProps, TableParams } from "./people-table.types";
-import { FC, useEffect, useState } from "react";
-import React from 'react';
-import {Button, Space, TableProps, Tag} from 'antd';
-import {MailOutlined, PhoneOutlined, TeamOutlined} from "@ant-design/icons";
-import { MatchingTasksTableData } from "./columns";
+import {Button, Space, Table, TableProps, Tag} from "antd";
+import {PeopleTableProps} from "./people-table.types";
+import React, {FC, useState} from "react";
+import {ContainerOutlined, MailOutlined, WindowsOutlined} from "@ant-design/icons";
+import {MatchingTasksTableData} from "./columns";
 import FoundedUserTasksModal from "../founded-user-tasks-modal/founded-user-tasks-modal";
 
 const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) => {
@@ -98,9 +96,9 @@ const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) =>
       align: 'center',
       render: (_, record) => (
           <Space size="middle">
-            <Button icon={<MailOutlined/>}>Email</Button>
-            <Button icon={<PhoneOutlined/>}>Call</Button>
-            <Button icon={<TeamOutlined/>} type={'primary'} onClick={() => handleViewFoundedUserTasks(record)}>View Details</Button>
+            <Button href={`mailto:${record.email}`} icon={<MailOutlined/>}>Email</Button>
+            <Button href={`msteams:/l/chat/0/0?users=${record.email}`} icon={<WindowsOutlined />}>Teams</Button>
+            <Button icon={<ContainerOutlined />} type={'primary'} onClick={() => handleViewFoundedUserTasks(record)}>Details</Button>
           </Space>
       ),
     },
