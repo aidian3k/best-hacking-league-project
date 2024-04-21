@@ -86,6 +86,12 @@ const PeopleTable: FC<PeopleTableProps> = ({ data, loading, displayDetails }) =>
       align: 'center',
     },
     {
+      title: 'Matching tasks',
+      dataIndex: 'matching_tasks',
+      key: 'matching_tasks',
+      align: 'center',
+    },
+    {
       title: 'Actions',
       key: 'actions',
       dataIndex: 'actions',

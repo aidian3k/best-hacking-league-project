@@ -33,7 +33,8 @@ export const getMatchingTasks = async (searchFiltersInput: SearchFiltersInput, p
             story_points: res.totalNumberOfStoryPoints,
             actions: [],
             matchingTasksIds: res.matchingTasksIds,
-            email: res.employee.uniqueName
+            email: res.employee.uniqueName,
+            matching_tasks: res.totalNumberOfFoundTasks
         }
 
         return tableDataElem;

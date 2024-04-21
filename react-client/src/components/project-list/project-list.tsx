@@ -9,8 +9,13 @@ const ProjectList = ({projects}: { projects: ProjectItem[] }) => {
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
   };
-  console.log(projects)
-  // api call - get Projects.
+
+  const generateUrl = (taskId: number, projectName: string) => {
+    // Tutaj jeszcze potrzebna nazwa organizacji
+    const url = `https://dev.azure.com/ChallengeMeProject/${projectName}/_backlogs/backlog/${projectName}%20Team/Backlog%20items?workitem=${taskId}`;
+    return url;
+  }
+
   const mapItems = () => {
     return projects.map((projectItem) =>
         getItem(
@@ -18,18 +23,19 @@ const ProjectList = ({projects}: { projects: ProjectItem[] }) => {
             projectItem.id,
             <Avatar shape="square" size={'small'} src={projectItem.icon}/>,
             projectItem.tasks.map(task =>
-                getItem(<TaskEntry task={task}/>, task.id, <FileTextOutlined/>)
+                getItem(<TaskEntry task={task} link={generateUrl(task.id, projectItem.title)}/>, task.id, <FileTextOutlined/>)
             )
         )
     )
   }
+
   const items: MenuProps['items'] = projects.map((projectItem) => getItem(
       <ProjectEntry project={projectItem}/>,
       projectItem.id,
       <Avatar shape="square" size={'small'} src={projectItem.icon}/>,
       projectItem.tasks.map(task =>
-          getItem(<TaskEntry task={task}/>, task.id, <FileTextOutlined/>)
-      )));
+          getItem(<TaskEntry task={task} link={generateUrl(task.id, projectItem.title)}/>, task.id, <FileTextOutlined/>)
+  )));
 
   return (
       <div className={'flex flex-col'}>
