@@ -23,14 +23,6 @@ const ProjectList = ({projects}: { projects: ProjectItem[] }) => {
     )
   }
 
-  // const items: MenuProps['items'] = projects.map((projectItem) => getItem(
-  //     <ProjectEntry project={projectItem}/>,
-  //     projectItem.id,
-  //     <Avatar shape="square" size={'small'} src={projectItem.icon}/>,
-  //     projectItem.tasks.map(task =>
-  //         getItem(<TaskEntry task={task}/>, task.id, <FileTextOutlined/>)
-  // )));
-
   return (
       <div className={'flex flex-col'}>
         <Menu
