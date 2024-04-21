@@ -18,6 +18,7 @@ type SingleMatchingTaskDetail = {
   taskUrl: string;
   changedDate: Date;
   taskTags: string;
+  otherLinks: any;
 }
 
 type SimpleEmployeeDetailsRequest = { matchingTasksIds: number[] }

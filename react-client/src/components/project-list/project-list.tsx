@@ -10,12 +10,6 @@ const ProjectList = ({projects}: { projects: ProjectItem[] }) => {
     console.log('click ', e);
   };
 
-  const generateUrl = (taskId: number, projectName: string) => {
-    // Tutaj jeszcze potrzebna nazwa organizacji
-    const url = `https://dev.azure.com/ChallengeMeProject/${projectName}/_backlogs/backlog/${projectName}%20Team/Backlog%20items?workitem=${taskId}`;
-    return url;
-  }
-
   const mapItems = () => {
     return projects.map((projectItem) =>
         getItem(
@@ -23,19 +17,19 @@ const ProjectList = ({projects}: { projects: ProjectItem[] }) => {
             projectItem.id,
             <Avatar shape="square" size={'small'} src={projectItem.icon}/>,
             projectItem.tasks.map(task =>
-                getItem(<TaskEntry task={task} link={generateUrl(task.id, projectItem.title)}/>, task.id, <FileTextOutlined/>)
+                getItem(<TaskEntry task={task}/>, task.id, <FileTextOutlined/>)
             )
         )
     )
   }
 
-  const items: MenuProps['items'] = projects.map((projectItem) => getItem(
-      <ProjectEntry project={projectItem}/>,
-      projectItem.id,
-      <Avatar shape="square" size={'small'} src={projectItem.icon}/>,
-      projectItem.tasks.map(task =>
-          getItem(<TaskEntry task={task} link={generateUrl(task.id, projectItem.title)}/>, task.id, <FileTextOutlined/>)
-  )));
+  // const items: MenuProps['items'] = projects.map((projectItem) => getItem(
+  //     <ProjectEntry project={projectItem}/>,
+  //     projectItem.id,
+  //     <Avatar shape="square" size={'small'} src={projectItem.icon}/>,
+  //     projectItem.tasks.map(task =>
+  //         getItem(<TaskEntry task={task}/>, task.id, <FileTextOutlined/>)
+  // )));
 
   return (
       <div className={'flex flex-col'}>
@@ -46,7 +40,6 @@ const ProjectList = ({projects}: { projects: ProjectItem[] }) => {
             mode="inline"
             items={mapItems()}
         />
-        {/*{projects.map((project) => <ProjectEntry project={project}/>)}*/}
       </div>
 
   )
