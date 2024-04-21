@@ -1,4 +1,4 @@
-package ee.pw.hackathon.besthackingleagueproject.domain;
+package ee.pw.hackathon.besthackingleagueproject.domain.employeefinding;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

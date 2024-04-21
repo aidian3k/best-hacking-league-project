@@ -1,6 +1,6 @@
 package ee.pw.hackathon.besthackingleagueproject.service;
 
-import ee.pw.hackathon.besthackingleagueproject.domain.AzDoCoreApiConfiguration;
+import ee.pw.hackathon.besthackingleagueproject.domain.employeefinding.AzDoCoreApiConfiguration;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.azd.core.types.Project;
