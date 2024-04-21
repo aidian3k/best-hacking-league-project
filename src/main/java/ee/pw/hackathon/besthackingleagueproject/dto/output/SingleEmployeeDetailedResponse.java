@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +16,7 @@ import java.util.Map;
 @Builder
 @Jacksonized
 public class SingleEmployeeDetailedResponse {
-    private Map<ProjectDetailedTaskInformation, List<SingleMatchingTaskDetail>> employeeTaskDetails;
+
+    private ProjectDetailedTaskInformation projectDetailedTaskInformation;
+    private List<SingleMatchingTaskDetail> singleMatchingTaskDetail;
 }

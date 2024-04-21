@@ -29,10 +29,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -222,7 +224,7 @@ public class TaskService {
         );
     }
 
-    public SingleEmployeeDetailedResponse getSingleEmployeeDetailedResponse(
+    public List<SingleEmployeeDetailedResponse> getSingleEmployeeDetailedResponse(
             SingleEmployeeDetailedFilters singleEmployeeDetailedFilters
     ) {
         final WorkItemTrackingApi workItemTrackingApi = azDoCoreApiConfiguration
@@ -258,9 +260,12 @@ public class TaskService {
                                                         .taskUrl(workItem.getUrl())
                                                         .taskStatus(workItem.getFields().getSystemState())
                                                         .changedDate(
-                                                                LocalDateTime.parse(
-                                                                        workItem.getFields().getSystemChangedDate()
-                                                                )
+                                                                ZonedDateTime
+                                                                        .parse(
+                                                                                workItem.getFields().getSystemChangedDate(),
+                                                                                DateTimeFormatter.ISO_DATE_TIME
+                                                                        )
+                                                                        .toLocalDateTime()
                                                         )
                                                         .build(),
                                         Collectors.toList()
@@ -279,6 +284,9 @@ public class TaskService {
                             .totalNumberOfStoryPoints(
                                     singleMatchingTaskDetails
                                             .stream()
+                                            .filter(taskDetails ->
+                                                    Objects.nonNull(taskDetails.getStoryPoints())
+                                            )
                                             .mapToDouble(SingleMatchingTaskDetail::getStoryPoints)
                                             .sum()
                             )
@@ -303,10 +311,20 @@ public class TaskService {
                 }
         );
 
-        return SingleEmployeeDetailedResponse
-                .builder()
-                .employeeTaskDetails(employeeDetailsMap)
-                .build();
+        return employeeDetailsMap
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    final ProjectDetailedTaskInformation projectDetailedTaskInformation = entry.getKey();
+                    final List<SingleMatchingTaskDetail> singleMatchingTaskDetails = entry.getValue();
+
+                    return SingleEmployeeDetailedResponse
+                            .builder()
+                            .projectDetailedTaskInformation(projectDetailedTaskInformation)
+                            .singleMatchingTaskDetail(singleMatchingTaskDetails)
+                            .build();
+                })
+                .toList();
     }
 
     private boolean workFieldContainsTextBasedOnSearchText(
