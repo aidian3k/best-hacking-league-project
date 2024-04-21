@@ -41,14 +41,16 @@ const Filters = () => {
         if (!date) {
             return;
         }
-        dispatch(setStartingDate(date.toDate().toLocaleDateString()))
+        const index = date.toISOString().indexOf('T')
+        dispatch(setStartingDate(date.toDate().toISOString().substring(0, index)))
     };
 
     const onEndingDateChange: DatePickerProps['onChange'] = (date, dateString) => {
         if (!date) {
             return
         }
-        dispatch(setEndingDate(date.toDate().toLocaleDateString()))
+        const index = date.toISOString().indexOf('T')
+        dispatch(setEndingDate(date.toDate().toISOString().substring(0, index)))
     };
     
     const convertDate = (date: string) => {
